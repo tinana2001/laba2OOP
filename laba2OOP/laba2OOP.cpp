@@ -14,9 +14,16 @@ public:
 	int x=5;
 	void Print() {
 		cout << "x="<<x<<endl << "y="<<y<<endl << "z="<<z << endl;
+		PrintZ();
 	}
-private:
+private://хоть z и y private, но в методе print из можно использовать, а так как метод print публичный, то и в main его можно вывести не смотря на то что y и z приватные
 	int y=9, z=7;
+	void PrintZ() {
+		cout << z << "\t";
+		cout << "PrintZ" << endl; 
+		//хоть метод printZ и приватный, но так как мы вызываем его в публичном методе Print,
+		//то и в main'e он все равно выведется
+	}
 };
 
 int main()
