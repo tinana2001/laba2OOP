@@ -24,7 +24,9 @@ public:
 		this->z = z;
 		cout << "Point(int x, int y, int z)" << endl;
 	}
-
+	~Point() {
+		cout << "~Point()" <<x<<" "<<y<<" "<<z<< endl;
+	}
 
 public:
 	
@@ -61,9 +63,11 @@ int main()
 	Nastya->age = 19;
 	cout <<"возраст Насти "<< Nastya->age<<endl;
 	cout << "___________________________" << endl;
-	Point a;
-	//a.Print();
-	Point b(10, 20, 30);
+	{
+		Point a;
+		//a.Print();
+		Point b(10, 20, 30);
+	}
 	
 }
 
