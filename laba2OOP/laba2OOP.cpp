@@ -37,12 +37,12 @@ public:
 	~Point() {
 		cout << "~Point()" <<x<<" "<<y<<" "<<z<< endl;
 	}
-public: //метод sum
+/*public: //метод sum
 	void Sum() {
 		cout << "x+y+z =" << x + y + z << endl;
-	}
+	}*/
 public: //метод print
-	void Print() {
+	void Print() { 
 		cout << "метод Print()" << endl;
 		cout << "x="<<x<<endl << "y="<<y<<endl << "z="<<z << endl;
 		PrintZ();//вызываем метод PrintZ
@@ -57,8 +57,12 @@ public: //метод print
 		//хоть метод printZ и приватный, но так как мы вызываем его в публичном методе Print,
 		//то и в main'e он все равно выведется
 	}
+public:
+	void Sum();
 };
-
+void Point::Sum() {
+	cout << "x+y+z =" << x + y + z << endl;
+}
 int main()
 {
 	setlocale(LC_ALL, "rus");
@@ -74,7 +78,7 @@ int main()
 	{
 		Point a; 
 		Point b(10, 20, 30);
-		//b.Sum(); //вызываем метод sum
+		b.Sum(); //вызываем метод sum
 		//b.Print();//вызываем метод print 
 		Point c(b);
 	}
@@ -82,7 +86,7 @@ int main()
 	Point* a = new Point;
 	Point* b = new Point(100, 200, 300);
 	Point* c = new Point(*b);
-	//b->Sum();
+	b->Sum();
 	delete a;
 	delete b;
 	delete c;
