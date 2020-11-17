@@ -28,37 +28,37 @@ public:
 		cout << "Point(int x, int y, int z)" << endl;
 	}
 
+	Point(const Point &p) {
+		x = p.x;
+		y = p.y;
+		z = p.z;
+		cout << "Point(const Point &p)" << endl;
+	}
 	~Point() {
 		cout << "~Point()" <<x<<" "<<y<<" "<<z<< endl;
 	}
-public:
+public: //метод sum
 	void Sum() {
 		cout << "x+y+z =" << x + y + z << endl;
 	}
-public:
+public: //метод print
 	void Print() {
+		cout << "метод Print()" << endl;
 		cout << "x="<<x<<endl << "y="<<y<<endl << "z="<<z << endl;
 		PrintZ();//вызываем метод PrintZ
 	}
 	private://хоть z и y private, но в методе print из можно использовать, а так как метод print публичный, то и в main его можно вывести не смотря на то что y и z приватные
 	int x,y, z;
-	void PrintZ() {
+	void PrintZ() //приватный метод printZ
+	{
+		cout << "метод PrintZ" << endl;
 		cout << z << endl;
-		cout << "PrintZ" << endl; 
+		
 		//хоть метод printZ и приватный, но так как мы вызываем его в публичном методе Print,
 		//то и в main'e он все равно выведется
 	}
 };
-/*class Point
-{
-private:
-	int x, y;
-public:
-	Point(int valueX, int valueY) {
-		x = valueX;
-		y = valueY;
-	}
- };*/
+
 int main()
 {
 	setlocale(LC_ALL, "rus");
@@ -73,15 +73,19 @@ int main()
 	//статически
 	{
 		Point a; 
-		a.Print(); //вызываем метод print
 		Point b(10, 20, 30);
-		b.Sum(); //вызываем метод sum
+		//b.Sum(); //вызываем метод sum
+		//b.Print();//вызываем метод print 
+		Point c(b);
 	}
 	//динамически
 	Point* a = new Point;
 	Point* b = new Point(100, 200, 300);
+	Point* c = new Point(*b);
+	//b->Sum();
 	delete a;
 	delete b;
+	delete c;
 	
 }
 
