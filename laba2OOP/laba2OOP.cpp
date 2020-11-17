@@ -13,6 +13,8 @@ private:
 
 class Point
 {
+protected:
+	int x, y,z;
 public:
 	
 	Point (){
@@ -37,18 +39,16 @@ public:
 	~Point() {
 		cout << "~Point()" <<x<<" "<<y<<" "<<z<< endl;
 	}
-/*public: //метод sum
-	void Sum() {
-		cout << "x+y+z =" << x + y + z << endl;
-	}*/
-public: //метод print
-	void Print() { 
+
+   //метод print
+	void Print() 
+	{ 
 		cout << "метод Print()" << endl;
 		cout << "x="<<x<<endl << "y="<<y<<endl << "z="<<z << endl;
 		PrintZ();//вызываем метод PrintZ
 	}
-	private://хоть z и y private, но в методе print из можно использовать, а так как метод print публичный, то и в main его можно вывести не смотря на то что y и z приватные
-	int x,y, z;
+	private://хоть z и y protected, но в методе print иx можно использовать, а так как метод print публичный, то и в main его можно вывести
+	
 	void PrintZ() //приватный метод printZ
 	{
 		cout << "метод PrintZ" << endl;
@@ -63,6 +63,46 @@ public:
 void Point::Sum() {
 	cout << "x+y+z =" << x + y + z << endl;
 }
+
+class WeightedPoint: public Point
+{
+protected:
+	int weight;
+public:
+
+	WeightedPoint(): Point() {
+		weight = 0;
+		
+		cout << "WeightedPoint()" << endl;
+	}
+	WeightedPoint(int x, int y, int z, int weight) : Point(x,y,z) {
+		this->weight = weight;
+		
+		cout << "WeightPoint(int x, int y, int z)" << endl;
+	}
+
+	WeightedPoint(const WeightedPoint& p) {
+		weight = p.weight;
+		x = p.x;
+		y = p.y;
+		z = p.z;
+		cout << "WeightPoint(const Point &p)" << endl;
+	}
+	~WeightedPoint() {
+		cout << "~WeightPoint()" << x << " " << y << " " << z <<" "<<weight<< endl;
+	}
+
+	//метод print
+	void WeightedPrint()
+	{
+		cout << "метод WaightPrint()" << endl;
+		cout << "x=" << x << endl << "y=" << y << endl << "z=" << z<<endl <<"weight ="<<weight<< endl;
+		
+	}
+
+};
+
+
 int main()
 {
 	setlocale(LC_ALL, "rus");
@@ -79,8 +119,9 @@ int main()
 		Point a; 
 		Point b(10, 20, 30);
 		b.Sum(); //вызываем метод sum
-		//b.Print();//вызываем метод print 
+		b.Print();//вызываем метод print 
 		Point c(b);
+		
 	}
 	//динамически
 	Point* a = new Point;
@@ -90,7 +131,9 @@ int main()
 	delete a;
 	delete b;
 	delete c;
-	
+	WeightedPoint* w = new WeightedPoint(1,2,3,54);
+	w->WeightedPrint();
+	delete w;
 }
 
 
