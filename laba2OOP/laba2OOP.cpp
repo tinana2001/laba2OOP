@@ -78,10 +78,10 @@ public:
 	WeightedPoint(int x, int y, int z, int weight) : Point(x,y,z) {
 		this->weight = weight;
 		
-		cout << "WeightPoint(int x, int y, int z)" << endl;
+		cout << "WeightPoint(int x, int y, int z)" << x << " " << y << " " << z << " " <<"weight= "<< weight<< endl;
 	}
 
-	WeightedPoint(const WeightedPoint& p) {
+	WeightedPoint(const WeightedPoint& p) { //копируем все 4 поля вручную
 		weight = p.weight;
 		x = p.x;
 		y = p.y;
@@ -124,16 +124,29 @@ int main()
 		
 	}
 	//динамически
+	cout << "______________________" << endl;
 	Point* a = new Point;
 	Point* b = new Point(100, 200, 300);
 	Point* c = new Point(*b);
 	b->Sum();
+	
 	delete a;
 	delete b;
 	delete c;
+	cout << "______\n";
+	cout << "помещение в объектов в переменные различных типов" << endl;
+	Point* g = new WeightedPoint(100, 200, 300, 54);
+
+	//вызовится деструктор только бзового класса 
+	delete g;
+	
+	cout << "______________________" << endl;
 	WeightedPoint* w = new WeightedPoint(1,2,3,54);
-	w->WeightedPrint();
+	w->WeightedPrint(); //для нас открывается доступ к методам класса weightedPrint 
 	delete w;
+
+
+
 }
 
 
