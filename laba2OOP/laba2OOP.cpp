@@ -18,23 +18,26 @@ protected:
 public:
 	
 	Point (){
+		cout << "Point()" << endl;
 		x = 0;
 		y = 0;
 		z = 0;
-		cout << "Point()" << endl;
+		
 	}
-	Point(int x, int y, int z) {
+	Point(int x, int y, int z) { 
+		cout << "Point(int x, int y, int z)" << endl;
 		this->x = x;
 		this->y = y;
 		this->z = z;
-		cout << "Point(int x, int y, int z)" << endl;
+		
 	}
 
 	Point(const Point &p) {
+		cout << "Point(const Point &p)" << endl;
 		x = p.x;
 		y = p.y;
 		z = p.z;
-		cout << "Point(const Point &p)" << endl;
+		
 	}
 	~Point() {
 		cout << "~Point()" <<x<<" "<<y<<" "<<z<< endl;
@@ -75,18 +78,19 @@ public:
 		
 		cout << "WeightedPoint()" << endl;
 	}
-	WeightedPoint(int x, int y, int z, int weight) : Point(x,y,z) {
+	WeightedPoint(int x, int y, int z, int weight) : Point(x,y,z) { //для конструктора явно указали какой конструктор предка должен вызываться
 		this->weight = weight;
 		
 		cout << "WeightPoint(int x, int y, int z)" << x << " " << y << " " << z << " " <<"weight= "<< weight<< endl;
 	}
 
 	WeightedPoint(const WeightedPoint& p) { //копируем все 4 поля вручную
+		cout << "WeightPoint(const Point &p)" << endl;
 		weight = p.weight;
 		x = p.x;
 		y = p.y;
 		z = p.z;
-		cout << "WeightPoint(const Point &p)" << endl;
+		
 	}
 	~WeightedPoint() {
 		cout << "~WeightPoint()" << x << " " << y << " " << z <<" "<<weight<< endl;
@@ -101,6 +105,47 @@ public:
 	}
 
 };
+
+class Triangle
+{
+protected:
+	Point* p1;
+	Point* p2;
+	Point* p3;
+public:
+
+	Triangle() {
+
+		cout << "Triangle()" << endl;
+		p1 = new Point;
+		p2 = new Point;
+		p3 = new Point;
+		
+	}
+	Triangle(int x1, int y1, int z1, int x2, int y2, int z2, int x3, int y3, int z3) {
+		cout << "Triangle(int x1, int y1, int z1, int x2, int y2, int z2, int x3, int y3, int z3)" << endl;
+		p1 = new Point(x1,y1,z1);
+		p2 = new Point(x2,y2,z2);
+		p3 = new Point(x3,y3,z3);
+		
+	}
+
+	Triangle(const Triangle& t) {  //создаем копию уже существующего треугольника 
+		cout << "Triangle(const Triangle &p)" << endl;
+		p1 = new Point(*(t.p1));//t-объект класса Point
+		p2 = new Point(*(t.p2));
+		p3 = new Point(*(t.p3));
+		
+	}
+	~Triangle() {
+		
+		delete p1;
+		delete p2;
+		delete p3;
+		cout << "~Triangle()" << endl;
+	}
+};
+
 
 
 int main()
@@ -144,7 +189,14 @@ int main()
 	WeightedPoint* w = new WeightedPoint(1,2,3,54);
 	w->WeightedPrint(); //для нас открывается доступ к методам класса weightedPrint 
 	delete w;
+	cout << "_________\n";
 
+	Triangle* t1 = new Triangle;
+	Triangle* t2 = new Triangle(*t1); //копия первого
+	Triangle* t3 = new Triangle (1,2,3,4,5,6,4,5,4);
+	delete t1;
+	delete t2;
+	delete t3;
 
 
 }
