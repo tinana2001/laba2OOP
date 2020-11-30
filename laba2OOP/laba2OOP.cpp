@@ -13,6 +13,7 @@ private:
 
 class Point
 {
+
 protected:
 	int x, y,z;
 public:
@@ -39,32 +40,25 @@ public:
 		z = p.z;
 		
 	}
-	~Point() {
+	virtual ~Point() {
 		cout << "~Point()" <<x<<" "<<y<<" "<<z<< endl;
 	}
 
    //метод print
+   
 	void Print() 
 	{ 
 		cout << "метод Print()" << endl;
 		cout << "x="<<x<<endl << "y="<<y<<endl << "z="<<z << endl;
-		PrintZ();//вызываем метод PrintZ
-	}
-	private://хоть z и y protected, но в методе print иx можно использовать, а так как метод print публичный, то и в main его можно вывести
-	
-	void PrintZ() //приватный метод printZ
-	{
-		cout << "метод PrintZ" << endl;
-		cout << z << endl;
-		
-		//хоть метод printZ и приватный, но так как мы вызываем его в публичном методе Print,
-		//то и в main'e он все равно выведется
 	}
 public:
-	void Sum();
+	void Add();
 };
-void Point::Sum() {
-	cout << "x+y+z =" << x + y + z << endl;
+void Point::Add() {
+	x = x + 1;
+	y = y + 1;
+	z = z + 1;
+	cout <<"метод Add" << endl;
 }
 
 class WeightedPoint: public Point
@@ -109,7 +103,7 @@ public:
 class Triangle
 {
 protected:
-	Point* p1;
+	Point* p1; //указатели на объект класса Point 
 	Point* p2;
 	Point* p3;
 public:
@@ -129,7 +123,9 @@ public:
 		p3 = new Point(x3,y3,z3);
 		
 	}
-
+	 //нужен чтобы у нас появилась возможность копировать данные из одного объекта в другой
+	//из объекта t в наш конкретный объект  
+	//для копирования объекта t нужно создать 2 новых объекта P
 	Triangle(const Triangle& t) {  //создаем копию уже существующего треугольника 
 		cout << "Triangle(const Triangle &p)" << endl;
 		p1 = new Point(*(t.p1));//t-объект класса Point
@@ -137,7 +133,7 @@ public:
 		p3 = new Point(*(t.p3));
 		
 	}
-	~Triangle() {
+	~ Triangle() {
 		
 		delete p1;
 		delete p2;
@@ -151,19 +147,14 @@ public:
 int main()
 {
 	setlocale(LC_ALL, "rus");
-	Human Artur;//статически
-	Artur.age = 21;
+	Human Artur;
 	//Artur.weight; //не можем использовать, так как weight private
-	cout <<"возраст Артура "<< Artur.age<<endl;
-	Human* Nastya = new Human;//динамически
-	Nastya->age = 19;
-	cout <<"возраст Насти "<< Nastya->age<<endl;
-	cout << "___________________________" << endl;
+	
 	//статически
 	{
 		Point a; 
 		Point b(10, 20, 30);
-		b.Sum(); //вызываем метод sum
+		b.Add(); //вызываем метод sum
 		b.Print();//вызываем метод print 
 		Point c(b);
 		
@@ -173,21 +164,22 @@ int main()
 	Point* a = new Point;
 	Point* b = new Point(100, 200, 300);
 	Point* c = new Point(*b);
-	b->Sum();
-	
+	b->Print();
+	b->Add(); 
 	delete a;
 	delete b;
 	delete c;
 	cout << "______\n";
 	cout << "помещение в объектов в переменные различных типов" << endl;
 	Point* g = new WeightedPoint(100, 200, 300, 54);
-
-	//вызовится деструктор только бзового класса 
+	cout << "******************\n";
+	//если бы мы не использовали виртуальный деструктор 
+	//вызовался бы деструктор только бзового класса 
 	delete g;
 	
 	cout << "______________________" << endl;
 	WeightedPoint* w = new WeightedPoint(1,2,3,54);
-	w->WeightedPrint(); //для нас открывается доступ к методам класса weightedPrint 
+	w->WeightedPrint(); //для нас открывается доступ к методам класса weightedPoint
 	delete w;
 	cout << "_________\n";
 
